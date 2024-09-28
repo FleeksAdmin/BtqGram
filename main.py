@@ -40,17 +40,21 @@ async def main():
 
     clear_screen()
     
+    # Выводим баннер
+    print(Fore.RED + Style.BRIGHT + 'BTQGRAM' + Style.RESET_ALL)
+    
     # Используем pyfiglet для создания ASCII-арта
-    cvss_art = pyfiglet.figlet_format("BTQ GRAM")
+    cvss_art = pyfiglet.figlet_format("CVSS")
     print(Fore.RED + Style.BRIGHT + cvss_art + Style.RESET_ALL)
     
     print(Style.BRIGHT + "ART" + Style.RESET_ALL)
     
     # Основное меню
-    await main_menu()
+    await show_main_menu()
 
-async def main_menu():
+async def show_main_menu():
     clear_screen()
+    print(Fore.RED + Style.BRIGHT + 'BTQGRAM' + Style.RESET_ALL)
     
     print(Fore.RED + Style.BRIGHT + "1. НАПИСАТЬ ЧЕЛУ (ЮЗ)" + Style.RESET_ALL)
     print(Fore.RED + Style.BRIGHT + "2. НАПИСАТЬ ЧЕЛУ (ЛИСТ)" + Style.RESET_ALL)
@@ -60,14 +64,24 @@ async def main_menu():
     print(Fore.RED + Style.BRIGHT + "ВЫБЕРИТЕ ОПЦИЮ:" + Style.RESET_ALL)
 
     option = input("Ваш выбор: ")
-    
+    await handle_option(option)
+
+async def handle_option(option):
     if option == '1':
-        await send_message_to_user()
+        user = input("Введите ID пользователя: ")
+        text = input("Введите сообщение для отправки: ")
+        await send_message(user, text)
+        await show_main_menu()  # Повертаємося до головного меню
     elif option == '2':
-        await send_message_to_chat()
+        dialogs = await client.get_dialogs()
+        for i, dialog in enumerate(dialogs):
+            print(f"{i}. {dialog.name}")
+        choice = int(input("Выберите чат (цифра): "))
+        chat = dialogs[choice]
+        await show_chat(chat)
     elif option == '3':
+        query = input("Что вы ищете?: ")
         # Добавить функцию поиска
-        pass
     elif option == '4':
         # Реализация блокировки чатов
         pass
@@ -76,30 +90,7 @@ async def main_menu():
         pass
     else:
         print(Fore.RED + "Неверный выбор. Попробуйте еще раз." + Style.RESET_ALL)
-        await main_menu()
-
-async def send_message_to_user():
-    user = input("Введите ID пользователя: ")
-    text = input("Введите сообщение для отправки: ")
-    await send_message(user, text)
-
-    # Выбор после отправки сообщения
-    choice = input("[1] НАПИСАТЬ ЕЩЁ\n[2] В ГЛАВНОЕ МЕНЮ\nВаш выбор: ")
-    if choice == '1':
-        await send_message_to_user()  # Повторить отправку сообщения
-    elif choice == '2':
-        await main_menu()  # Вернуться в главное меню
-    else:
-        print(Fore.RED + "Неверный выбор. Возврат в главное меню." + Style.RESET_ALL)
-        await main_menu()
-
-async def send_message_to_chat():
-    dialogs = await client.get_dialogs()
-    for i, dialog in enumerate(dialogs):
-        print(f"{i}. {dialog.name}")
-    choice = int(input("Выберите чат (цифра): "))
-    chat = dialogs[choice]
-    await show_chat(chat)
+        await show_main_menu()  # Повертаємося до головного меню
 
 async def show_chat(chat):
     clear_screen()
@@ -121,22 +112,14 @@ async def show_chat(chat):
     if choice == '1':
         await view_all_messages(chat)
     elif choice == '2':
+        # Добавить логику для просмотра следующей группы сообщений
         print("Функция еще не реализована.")
     elif choice == '3':
         text = input("Введите сообщение для отправки: ")
         await send_message(chat, text)
-
-        # Выбор после отправки сообщения
-        choice = input("[1] НАПИСАТЬ ЕЩЁ\n[2] В ГЛАВНОЕ МЕНЮ\nВаш выбор: ")
-        if choice == '1':
-            await send_message_to_chat()  # Повторить отправку сообщения
-        elif choice == '2':
-            await main_menu()  # Вернуться в главное меню
-        else:
-            print(Fore.RED + "Неверный выбор. Возврат в главное меню." + Style.RESET_ALL)
-            await main_menu()
+        await show_main_menu()  # Повертаємося до головного меню
     elif choice == '4':
-        return  # Вернуться в основное меню
+        await show_main_menu()  # Повертаємося до головного меню
 
 async def view_all_messages(chat):
     clear_screen()
@@ -148,7 +131,7 @@ async def view_all_messages(chat):
 
     print(Fore.WHITE + "Нажмите любую клавишу, чтобы вернуться назад...")
     input()
-    await main_menu()  # Возвращаемся в главное меню
+    await show_chat(chat)  # Повертаємося до чату
 
 if __name__ == '__main__':
     with client:
