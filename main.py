@@ -40,20 +40,16 @@ async def main():
 
     clear_screen()
     
+    # Выводим баннер
+    print(Fore.RED + Style.BRIGHT + 'BTQ GAME' + Style.RESET_ALL)
     
     # Используем pyfiglet для создания ASCII-арта
-    cvss_art = pyfiglet.figlet_format("BTQ GRAM")
+    cvss_art = pyfiglet.figlet_format("CVSS")
     print(Fore.RED + Style.BRIGHT + cvss_art + Style.RESET_ALL)
     
     print(Style.BRIGHT + "ART" + Style.RESET_ALL)
     
     # Основное меню
-    await show_main_menu()
-
-async def show_main_menu():
-    clear_screen()
-    print(Fore.RED + Style.BRIGHT + 'BTQGRAM' + Style.RESET_ALL)
-    
     print(Fore.RED + Style.BRIGHT + "1. НАПИСАТЬ ЧЕЛУ (ЮЗ)" + Style.RESET_ALL)
     print(Fore.RED + Style.BRIGHT + "2. НАПИСАТЬ ЧЕЛУ (ЛИСТ)" + Style.RESET_ALL)
     print(Fore.RED + Style.BRIGHT + "3. ПОИСК" + Style.RESET_ALL)
@@ -61,39 +57,35 @@ async def show_main_menu():
     print(Fore.RED + Style.BRIGHT + "5. ЗАБЛОКИРОВАТЬ (ЮЗ)" + Style.RESET_ALL)
     print(Fore.RED + Style.BRIGHT + "ВЫБЕРИТЕ ОПЦИЮ:" + Style.RESET_ALL)
 
-    option = input("Ваш выбор: ")
-    await handle_option(option)
-
-async def handle_option(option):
-    if option == '1':
-        user = input("Введите ID пользователя: ")
-        text = input("Введите сообщение для отправки: ")
-        await send_message(user, text)
-        await show_main_menu()  # Повертаємося до головного меню
-    elif option == '2':
-        dialogs = await client.get_dialogs()
-        for i, dialog in enumerate(dialogs):
-            print(f"{i}. {dialog.name}")
-        choice = int(input("Выберите чат (цифра): "))
-        chat = dialogs[choice]
-        await show_chat(chat)
-    elif option == '3':
-        query = input("Что вы ищете?: ")
-        # Добавить функцию поиска
-    elif option == '4':
-        # Реализация блокировки чатов
-        pass
-    elif option == '5':
-        # Реализация блокировки пользователей
-        pass
-    else:
-        print(Fore.RED + "Неверный выбор. Попробуйте еще раз." + Style.RESET_ALL)
-        await show_main_menu()  # Повертаємося до головного меню
+    while True:
+        option = input("Ваш выбор: ")
+        if option == '1':
+            user = input("Введите ID пользователя: ")
+            text = input("Введите сообщение для отправки: ")
+            await send_message(user, text)
+        elif option == '2':
+            dialogs = await client.get_dialogs()
+            for i, dialog in enumerate(dialogs):
+                print(f"{i}. {dialog.name}")
+            choice = int(input("Выберите чат (цифра): "))
+            chat = dialogs[choice]
+            await show_chat(chat)
+        elif option == '3':
+            query = input("Что вы ищете?: ")
+            # Добавить функцию поиска
+        elif option == '4':
+            # Реализация блокировки чатов
+            pass
+        elif option == '5':
+            # Реализация блокировки пользователей
+            pass
+        else:
+            print(Fore.RED + "Неверный выбор. Попробуйте еще раз." + Style.RESET_ALL)
 
 async def show_chat(chat):
     clear_screen()
     
-    print(Fore.RED + Style.BRIGHT + 'BTQGRAM' + Style.RESET_ALL)
+    print(Fore.RED + Style.BRIGHT + 'BTQ GAME' + Style.RESET_ALL)
     
     messages = await client.get_messages(chat, limit=50)
     
@@ -115,13 +107,12 @@ async def show_chat(chat):
     elif choice == '3':
         text = input("Введите сообщение для отправки: ")
         await send_message(chat, text)
-        await show_main_menu()  # Повертаємося до головного меню
     elif choice == '4':
-        await show_main_menu()  # Повертаємося до головного меню
+        return  # Вернуться в основное меню
 
 async def view_all_messages(chat):
     clear_screen()
-    print(Fore.RED + Style.BRIGHT + 'BTQGRAM' + Style.RESET_ALL)
+    print(Fore.RED + Style.BRIGHT + 'BTQ GAME' + Style.RESET_ALL)
 
     messages = await client.get_messages(chat)
     for message in messages:
@@ -129,7 +120,6 @@ async def view_all_messages(chat):
 
     print(Fore.WHITE + "Нажмите любую клавишу, чтобы вернуться назад...")
     input()
-    await show_chat(chat)  # Повертаємося до чату
 
 if __name__ == '__main__':
     with client:
