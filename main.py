@@ -41,10 +41,9 @@ async def main():
     clear_screen()
     
     # Выводим баннер
-    print(Fore.RED + Style.BRIGHT + 'BTQ GAME' + Style.RESET_ALL)
     
     # Используем pyfiglet для создания ASCII-арта
-    cvss_art = pyfiglet.figlet_format("CVSS")
+    cvss_art = pyfiglet.figlet_format("BTQ GRAM")
     print(Fore.RED + Style.BRIGHT + cvss_art + Style.RESET_ALL)
     
     print(Style.BRIGHT + "ART" + Style.RESET_ALL)
@@ -112,7 +111,7 @@ async def show_chat(chat):
 
 async def view_all_messages(chat):
     clear_screen()
-    print(Fore.RED + Style.BRIGHT + 'BTQ GAME' + Style.RESET_ALL)
+    print(Fore.RED + Style.BRIGHT + 'BTQ GRAM' + Style.RESET_ALL)
 
     messages = await client.get_messages(chat)
     for message in messages:
