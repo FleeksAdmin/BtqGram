@@ -40,11 +40,9 @@ async def main():
 
     clear_screen()
     
-    # Выводим баннер
-    print(Fore.RED + Style.BRIGHT + 'BTQGRAM' + Style.RESET_ALL)
     
     # Используем pyfiglet для создания ASCII-арта
-    cvss_art = pyfiglet.figlet_format("CVSS")
+    cvss_art = pyfiglet.figlet_format("BTQ GRAM")
     print(Fore.RED + Style.BRIGHT + cvss_art + Style.RESET_ALL)
     
     print(Style.BRIGHT + "ART" + Style.RESET_ALL)
