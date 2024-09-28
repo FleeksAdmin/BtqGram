@@ -3,9 +3,6 @@ from colorama import Fore, Style, init
 import os
 import asyncio
 import pyfiglet
-from PIL import Image
-import requests
-from io import BytesIO
 
 # Инициализация colorama
 init()
@@ -22,13 +19,6 @@ async def send_message(entity, text):
 
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
-
-def display_pepe():
-    # Виведемо зображення жаби Пепе
-    pepe_url = "https://i.imgur.com/7X58l0A.png"  # URL зображення Пепе
-    response = requests.get(pepe_url)
-    img = Image.open(BytesIO(response.content))
-    img.show()  # Відкрити зображення
 
 async def main():
     await client.start(phone_number)
@@ -58,9 +48,6 @@ async def main():
     print(Fore.RED + Style.BRIGHT + cvss_art + Style.RESET_ALL)
     
     print(Style.BRIGHT + "ART" + Style.RESET_ALL)
-
-    # Виводимо жабу Пепе
-    display_pepe()
     
     # Основное меню
     print(Fore.RED + Style.BRIGHT + "1. НАПИСАТЬ ЧЕЛУ (ЮЗ)" + Style.RESET_ALL)
